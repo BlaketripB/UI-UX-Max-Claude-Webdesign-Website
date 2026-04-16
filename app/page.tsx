@@ -499,7 +499,7 @@ const remotePoints = [
   {
     icon: '◉',
     title: 'Clients Worldwide',
-    desc: 'We work with businesses across [placeholder — add your regions]. Your timezone is not a barrier.',
+    desc: 'Serving clients in Utah and remotely across the U.S. Your location is not a barrier.',
   },
 ]
 
@@ -558,8 +558,8 @@ export default function Page() {
             </div>
             <div className="hero-stats">
               <div>
-                <div className="stat-n">[X]+</div>
-                <div className="stat-l">Projects completed</div>
+                <div className="stat-n">5+</div>
+                <div className="stat-l">Websites Launched</div>
               </div>
               <div>
                 <div className="stat-n">Worldwide</div>
@@ -694,7 +694,7 @@ export default function Page() {
           <div className="two-col">
             <div className="reveal">
               <div className="sec-label">How We Work</div>
-              <h2 className="sec-h">Remote-First, Anywhere in the World</h2>
+              <h2 className="sec-h">Based in Utah. Available Across the U.S.</h2>
               <p style={{ fontSize: '0.975rem', color: 'var(--text-secondary)', lineHeight: '1.72' }}>
                 Location doesn&apos;t limit who we work with. The process is built around clear communication, documented decisions, and handoffs that actually make sense.
               </p>
@@ -743,14 +743,14 @@ export default function Page() {
             <div className="about-body reveal d2">
               <div className="sec-label">About</div>
               <h2 className="sec-h">The Person Behind the Work</h2>
-              <p className="placeholder-block">
-                [Placeholder — Add your bio here. Include your background, what you focus on, what makes your approach different. 2–3 short paragraphs. Keep it honest and specific.]
+              <p>
+                Today, I create custom websites built to feel premium, modern, and professional while remaining clear, fast, and easy to use. I care deeply about quality, trust, and making sure each site feels intentional and tailored to the business behind it.
               </p>
               <p>
-                LockRidge Cyber is a [placeholder — individual / small team] focused on building professional websites for businesses that want quality work without navigating a large agency. Every project is handled directly — not passed off or outsourced.
+                For me, web design is not just about appearance. It is about creating a strong first impression, building credibility, and giving businesses an online presence they are proud to stand behind. Every project is handled directly — not passed off or outsourced.
               </p>
               <div className="tags">
-                {['Next.js', 'Web Design', 'Performance', 'SEO Foundations', 'Cybersecurity', '[Add skills]'].map((t, i) => (
+                {['Custom Website Design', 'Premium Business Websites', 'Responsive Design', 'SEO-Friendly Structure', 'Small Business Websites', 'Modern UI'].map((t, i) => (
                   <span key={i} className="tag">{t}</span>
                 ))}
               </div>
@@ -769,8 +769,8 @@ export default function Page() {
               Start with a 30-minute discovery call. We&apos;ll talk about your project, ask the right questions, and tell you honestly whether we&apos;re a good fit.
             </p>
             <div className="cta-actions">
-              <a href="mailto:[your@email.com]" className="btn-primary">Schedule a Discovery Call →</a>
-              <a href="mailto:[your@email.com]" className="btn-ghost">Send a Message</a>
+              <a href="mailto:contact@lockridgecyber.com" className="btn-primary">Schedule a Discovery Call →</a>
+              <a href="mailto:contact@lockridgecyber.com" className="btn-ghost">Send a Message</a>
             </div>
             <p className="cta-note">No pitch decks. No pressure. If we&apos;re not the right fit, we&apos;ll say so.</p>
           </div>
