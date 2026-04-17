@@ -339,6 +339,98 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section id="about" className="relative border-t border-border">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.12),transparent_70%)]"
+        />
+        <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
+          <div className="max-w-2xl">
+            <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
+              About
+            </span>
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              A studio built on craft, speed,{" "}
+              <span className="text-accent">and clarity.</span>
+            </h2>
+          </div>
+
+          <div className="mt-16 grid gap-10 md:grid-cols-5">
+            <div className="space-y-5 text-base text-secondary md:col-span-3 sm:text-lg">
+              <p>
+                Locked In is a small, senior team of designers and engineers.
+                We partner directly with founders, marketing leads, and product
+                teams — no account managers, no handoffs, no slide decks.
+              </p>
+              <p>
+                We&apos;ve shipped for early-stage startups, public companies,
+                and everything in between. What unites the work is a bias
+                toward sharp typography, considered motion, and pages that load
+                fast everywhere they&apos;re opened.
+              </p>
+              <p>
+                If you care about how your site looks, feels, and performs
+                under load — we&apos;re probably a good fit.
+              </p>
+            </div>
+
+            <div className="md:col-span-2">
+              <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-border bg-surface">
+                {[
+                  { value: "40+", label: "Sites shipped" },
+                  { value: "6 yrs", label: "In business" },
+                  { value: "$120M", label: "Client revenue influenced" },
+                  { value: "12", label: "Countries served" },
+                ].map((stat, i) => (
+                  <div
+                    key={stat.label}
+                    className={
+                      "p-6 " +
+                      (i % 2 === 0 ? "border-r border-border " : "") +
+                      (i < 2 ? "border-b border-border" : "")
+                    }
+                  >
+                    <div className="text-3xl font-semibold tracking-tight text-foreground">
+                      {stat.value}
+                    </div>
+                    <div className="mt-1 text-xs uppercase tracking-[0.14em] text-muted">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 grid gap-6 border-t border-border pt-12 md:grid-cols-3">
+            {[
+              {
+                title: "Craft first",
+                body: "Every pixel, every line of code. Design systems that hold up, components that compose, type that earns its space.",
+              },
+              {
+                title: "Ship fast",
+                body: "Weeks, not quarters. We scope tightly, decide quickly, and protect the launch date without cutting corners.",
+              },
+              {
+                title: "Real partnership",
+                body: "You work with the people doing the work. One Slack channel, one roadmap, zero telephone game.",
+              },
+            ].map((principle) => (
+              <div key={principle.title}>
+                <div className="flex items-center gap-3">
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+                  <h3 className="text-base font-semibold text-foreground">
+                    {principle.title}
+                  </h3>
+                </div>
+                <p className="mt-3 text-sm text-secondary">{principle.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }
