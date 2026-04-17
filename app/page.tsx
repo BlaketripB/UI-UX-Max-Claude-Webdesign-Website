@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ContactForm from "@/components/ContactForm";
 
 type Tier = {
   name: string;
@@ -428,6 +429,62 @@ export default function Home() {
                 <p className="mt-3 text-sm text-secondary">{principle.body}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="relative border-t border-border">
+        <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
+          <div className="grid gap-12 md:grid-cols-5">
+            <div className="md:col-span-2">
+              <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
+                Contact
+              </span>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+                Let&apos;s build something{" "}
+                <span className="text-accent">sharp.</span>
+              </h2>
+              <p className="mt-4 text-base text-secondary sm:text-lg">
+                Tell us about your project and we&apos;ll get back within one
+                business day with next steps, timeline, and a quote.
+              </p>
+
+              <dl className="mt-10 space-y-6 border-t border-border pt-8">
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-muted">
+                    Email
+                  </dt>
+                  <dd className="mt-1 text-base text-foreground">
+                    <a
+                      href="mailto:hello@lockedinweb.design"
+                      className="transition-colors hover:text-accent"
+                    >
+                      hello@lockedinweb.design
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-muted">
+                    Studio
+                  </dt>
+                  <dd className="mt-1 text-base text-foreground">
+                    Remote-first · New York / London
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-xs uppercase tracking-[0.14em] text-muted">
+                    Response time
+                  </dt>
+                  <dd className="mt-1 text-base text-foreground">
+                    Within one business day
+                  </dd>
+                </div>
+              </dl>
+            </div>
+
+            <div className="md:col-span-3">
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>
