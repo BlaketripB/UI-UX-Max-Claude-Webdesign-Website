@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ContactForm from "@/components/ContactForm";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -70,14 +71,23 @@ export default function ContactPage() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
         </div>
 
-        <div className="mx-auto max-w-6xl px-6 py-24 text-center md:py-32">
-          <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
+        <div className="mx-auto max-w-6xl px-6 py-20 text-center sm:py-24 md:py-32">
+          <span
+            className="inline-block animate-fade-up text-xs font-medium uppercase tracking-[0.18em] text-accent"
+            style={{ animationDelay: "0ms" }}
+          >
             Contact
           </span>
-          <h1 className="mx-auto mt-4 max-w-3xl text-5xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
+          <h1
+            className="mx-auto mt-4 max-w-3xl animate-fade-up text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl"
+            style={{ animationDelay: "120ms" }}
+          >
             Get in <span className="text-accent">touch.</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-base text-secondary sm:text-lg">
+          <p
+            className="mx-auto mt-6 max-w-2xl animate-fade-up text-base text-secondary sm:text-lg"
+            style={{ animationDelay: "240ms" }}
+          >
             A full site, a specific piece of engineering, or just a quick
             question — we read everything and respond within one business day.
           </p>
@@ -87,7 +97,7 @@ export default function ContactPage() {
       <section className="relative border-b border-border">
         <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
           <div className="grid gap-12 md:grid-cols-5">
-            <aside className="md:col-span-2">
+            <Reveal as="aside" className="md:col-span-2">
               <div className="rounded-2xl border border-border bg-surface p-8">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted">
                   <span className="relative flex h-2 w-2">
@@ -161,18 +171,18 @@ export default function ContactPage() {
                   ))}
                 </ul>
               </div>
-            </aside>
+            </Reveal>
 
-            <div className="md:col-span-3">
+            <Reveal delay={100} className="md:col-span-3">
               <ContactForm />
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       <section className="relative">
         <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
-          <div className="max-w-2xl">
+          <Reveal className="max-w-2xl">
             <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
               What happens next
             </span>
@@ -183,13 +193,15 @@ export default function ContactPage() {
               Here&apos;s what the first two weeks look like. We keep it short
               and decision-focused.
             </p>
-          </div>
+          </Reveal>
 
-          <ol className="mt-16 grid gap-6 md:grid-cols-4">
-            {steps.map((step) => (
-              <li
+          <ol className="mt-16 grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+            {steps.map((step, i) => (
+              <Reveal
                 key={step.number}
-                className="relative flex flex-col rounded-2xl border border-border bg-surface p-6"
+                as="li"
+                delay={i * 80}
+                className="relative flex flex-col rounded-2xl border border-border bg-surface p-6 transition-all duration-300 hover:-translate-y-1 hover:border-border-strong hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)]"
               >
                 <span className="text-xs font-medium uppercase tracking-[0.14em] text-accent">
                   {step.number}
@@ -201,7 +213,7 @@ export default function ContactPage() {
                   {step.when}
                 </span>
                 <p className="mt-3 text-sm text-secondary">{step.body}</p>
-              </li>
+              </Reveal>
             ))}
           </ol>
         </div>

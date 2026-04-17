@@ -122,9 +122,18 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-strong hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.7)] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-none sm:w-auto"
         >
           {pending ? "Sending…" : "Send message"}
+          <span
+            aria-hidden
+            className={
+              "inline-block transition-transform duration-200 " +
+              (pending ? "" : "group-hover:translate-x-0.5")
+            }
+          >
+            →
+          </span>
         </button>
       </div>
     </form>

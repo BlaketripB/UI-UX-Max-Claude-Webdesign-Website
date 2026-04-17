@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import PricingTiers from "@/components/PricingTiers";
+import Reveal from "@/components/Reveal";
 
 type Project = {
   slug: string;
@@ -63,35 +64,62 @@ export default function Home() {
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_80%)]" />
         </div>
 
-        <div className="mx-auto flex max-w-6xl flex-col items-center px-6 py-28 text-center md:py-40">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs text-secondary backdrop-blur">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+        <div className="mx-auto flex max-w-6xl flex-col items-center px-6 py-24 text-center sm:py-28 md:py-40">
+          <span
+            className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-border bg-surface/60 px-3 py-1 text-xs text-secondary backdrop-blur"
+            style={{ animationDelay: "0ms" }}
+          >
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent/60" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+            </span>
             Now booking projects for Q2
           </span>
 
-          <h1 className="mt-6 max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl">
+          <h1
+            className="mt-6 max-w-4xl animate-fade-up text-4xl font-semibold leading-[1.05] tracking-tight text-foreground sm:text-6xl md:text-7xl"
+            style={{ animationDelay: "120ms" }}
+          >
             Websites that <span className="text-accent">convert</span>,
             <br className="hidden sm:block" /> not just exist.
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base text-secondary sm:text-lg">
+          <p
+            className="mt-6 max-w-2xl animate-fade-up text-base text-secondary sm:text-lg"
+            style={{ animationDelay: "240ms" }}
+          >
             Locked In is a design and development studio building fast, modern
             sites for ambitious brands. Clean code, sharp visuals, measurable
             results.
           </p>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div
+            className="mt-10 flex w-full animate-fade-up flex-col gap-3 sm:w-auto sm:flex-row"
+            style={{ animationDelay: "360ms" }}
+          >
             <Link
               href="/contact"
-              className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent-strong"
+              className="group inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-foreground transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent-strong hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.7)]"
             >
               Start a project
+              <span
+                aria-hidden
+                className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-0.5"
+              >
+                →
+              </span>
             </Link>
             <Link
               href="/work"
-              className="rounded-full border border-border bg-surface px-6 py-3 text-sm font-medium text-secondary transition-colors hover:border-border-strong hover:text-foreground"
+              className="group inline-flex items-center justify-center rounded-full border border-border bg-surface px-6 py-3 text-sm font-medium text-secondary transition-all duration-200 hover:-translate-y-0.5 hover:border-border-strong hover:text-foreground"
             >
-              See our work →
+              See our work
+              <span
+                aria-hidden
+                className="ml-2 inline-block transition-transform duration-200 group-hover:translate-x-0.5"
+              >
+                →
+              </span>
             </Link>
           </div>
         </div>
@@ -99,7 +127,7 @@ export default function Home() {
 
       <section id="services" className="relative border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal className="mx-auto max-w-2xl text-center">
             <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
               Services
             </span>
@@ -110,11 +138,11 @@ export default function Home() {
               Transparent, fixed pricing. No hidden fees, no drawn-out
               contracts — just great work, shipped on time.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="mt-16">
+          <Reveal delay={100} className="mt-16">
             <PricingTiers />
-          </div>
+          </Reveal>
 
           <p className="mt-10 text-center text-sm text-muted">
             Need something different?{" "}
@@ -131,78 +159,88 @@ export default function Home() {
 
       <section id="work" className="relative border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
-          <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-            <div className="max-w-2xl">
-              <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
-                Selected work
-              </span>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-                Recent projects.
-              </h2>
-              <p className="mt-4 text-base text-secondary sm:text-lg">
-                A handful of sites we&apos;ve shipped lately for founders,
-                funds, and fast-moving brands.
-              </p>
+          <Reveal>
+            <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+              <div className="max-w-2xl">
+                <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
+                  Selected work
+                </span>
+                <h2 className="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+                  Recent projects.
+                </h2>
+                <p className="mt-4 text-base text-secondary sm:text-lg">
+                  A handful of sites we&apos;ve shipped lately for founders,
+                  funds, and fast-moving brands.
+                </p>
+              </div>
+              <Link
+                href="/work"
+                className="group inline-flex items-center gap-2 text-sm font-medium text-secondary transition-colors hover:text-foreground"
+              >
+                View all work
+                <span
+                  aria-hidden
+                  className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </Link>
             </div>
-            <Link
-              href="/work"
-              className="inline-flex items-center gap-2 text-sm font-medium text-secondary transition-colors hover:text-foreground"
-            >
-              View all work
-              <span aria-hidden>→</span>
-            </Link>
-          </div>
+          </Reveal>
 
           <div className="mt-16 grid gap-6 md:grid-cols-2">
-            {projects.map((project) => (
-              <Link
-                key={project.slug}
-                href={`/work/${project.slug}`}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-colors hover:border-border-strong"
-              >
-                <div
-                  className={
-                    "relative aspect-[16/10] overflow-hidden " + project.cover
-                  }
+            {projects.map((project, i) => (
+              <Reveal key={project.slug} delay={i * 80}>
+                <Link
+                  href={`/work/${project.slug}`}
+                  className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface transition-all duration-300 hover:-translate-y-1 hover:border-border-strong hover:shadow-[0_30px_60px_-30px_rgba(0,0,0,0.8)]"
                 >
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_85%)]"
-                  />
-                  <div className="absolute inset-0 flex items-end p-8">
-                    <span className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                      {project.name}
-                    </span>
-                  </div>
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
-                  />
-                </div>
-
-                <div className="flex flex-1 flex-col gap-3 p-8">
-                  <div className="flex items-center justify-between text-xs text-muted">
-                    <span className="uppercase tracking-[0.14em]">
-                      {project.tag}
-                    </span>
-                    <span>{project.year}</span>
-                  </div>
-                  <div className="flex items-start justify-between gap-4">
-                    <h3 className="text-xl font-semibold text-foreground">
-                      {project.name}
-                    </h3>
-                    <span
+                  <div className="relative aspect-[16/10] overflow-hidden">
+                    <div
+                      className={
+                        "absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-105 " +
+                        project.cover
+                      }
+                    />
+                    <div
                       aria-hidden
-                      className="mt-1 text-secondary transition-transform group-hover:translate-x-1 group-hover:text-accent"
-                    >
-                      →
-                    </span>
+                      className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_85%)]"
+                    />
+                    <div className="absolute inset-0 flex items-end p-6 sm:p-8">
+                      <span className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl">
+                        {project.name}
+                      </span>
+                    </div>
+                    <div
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+                    />
                   </div>
-                  <p className="text-sm text-secondary">
-                    {project.description}
-                  </p>
-                </div>
-              </Link>
+
+                  <div className="flex flex-1 flex-col gap-3 p-6 sm:p-8">
+                    <div className="flex items-center justify-between text-xs text-muted">
+                      <span className="uppercase tracking-[0.14em]">
+                        {project.tag}
+                      </span>
+                      <span>{project.year}</span>
+                    </div>
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="text-xl font-semibold text-foreground">
+                        {project.name}
+                      </h3>
+                      <span
+                        aria-hidden
+                        className="mt-1 text-secondary transition-all duration-200 group-hover:translate-x-1 group-hover:text-accent"
+                      >
+                        →
+                      </span>
+                    </div>
+                    <p className="text-sm text-secondary">
+                      {project.description}
+                    </p>
+                  </div>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -214,7 +252,7 @@ export default function Home() {
           className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.12),transparent_70%)]"
         />
         <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
-          <div className="max-w-2xl">
+          <Reveal className="max-w-2xl">
             <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
               About
             </span>
@@ -222,10 +260,10 @@ export default function Home() {
               A studio built on craft, speed,{" "}
               <span className="text-accent">and clarity.</span>
             </h2>
-          </div>
+          </Reveal>
 
           <div className="mt-16 grid gap-10 md:grid-cols-5">
-            <div className="space-y-5 text-base text-secondary md:col-span-3 sm:text-lg">
+            <Reveal className="space-y-5 text-base text-secondary md:col-span-3 sm:text-lg">
               <p>
                 Locked In is a small, senior team of designers and engineers.
                 We partner directly with founders, marketing leads, and product
@@ -241,9 +279,9 @@ export default function Home() {
                 If you care about how your site looks, feels, and performs
                 under load — we&apos;re probably a good fit.
               </p>
-            </div>
+            </Reveal>
 
-            <div className="md:col-span-2">
+            <Reveal delay={120} className="md:col-span-2">
               <div className="grid grid-cols-2 overflow-hidden rounded-2xl border border-border bg-surface">
                 {[
                   { value: "40+", label: "Sites shipped" },
@@ -254,7 +292,7 @@ export default function Home() {
                   <div
                     key={stat.label}
                     className={
-                      "p-6 " +
+                      "p-6 transition-colors hover:bg-surface-elevated " +
                       (i % 2 === 0 ? "border-r border-border " : "") +
                       (i < 2 ? "border-b border-border" : "")
                     }
@@ -268,7 +306,7 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Reveal>
           </div>
 
           <div className="mt-16 grid gap-6 border-t border-border pt-12 md:grid-cols-3">
@@ -285,8 +323,8 @@ export default function Home() {
                 title: "Real partnership",
                 body: "You work with the people doing the work. One Slack channel, one roadmap, zero telephone game.",
               },
-            ].map((principle) => (
-              <div key={principle.title}>
+            ].map((principle, i) => (
+              <Reveal key={principle.title} delay={i * 80}>
                 <div className="flex items-center gap-3">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                   <h3 className="text-base font-semibold text-foreground">
@@ -294,7 +332,7 @@ export default function Home() {
                   </h3>
                 </div>
                 <p className="mt-3 text-sm text-secondary">{principle.body}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -303,7 +341,7 @@ export default function Home() {
       <section id="contact" className="relative border-t border-border">
         <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
           <div className="grid gap-12 md:grid-cols-5">
-            <div className="md:col-span-2">
+            <Reveal className="md:col-span-2">
               <span className="text-xs font-medium uppercase tracking-[0.18em] text-accent">
                 Contact
               </span>
@@ -347,11 +385,11 @@ export default function Home() {
                   </dd>
                 </div>
               </dl>
-            </div>
+            </Reveal>
 
-            <div className="md:col-span-3">
+            <Reveal delay={100} className="md:col-span-3">
               <ContactForm />
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

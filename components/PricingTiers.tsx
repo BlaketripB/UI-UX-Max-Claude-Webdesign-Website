@@ -83,10 +83,10 @@ export default function PricingTiers() {
           <div
             key={tier.name}
             className={
-              "relative flex flex-col rounded-2xl border p-8 transition-colors " +
+              "relative flex flex-col rounded-2xl border p-8 transition-all duration-300 hover:-translate-y-1 " +
               (featured
-                ? "border-accent/60 bg-surface-elevated shadow-[0_20px_60px_-30px_rgba(59,130,246,0.5)]"
-                : "border-border bg-surface hover:border-border-strong")
+                ? "border-accent/60 bg-surface-elevated shadow-[0_20px_60px_-30px_rgba(59,130,246,0.5)] hover:shadow-[0_30px_80px_-30px_rgba(59,130,246,0.7)]"
+                : "border-border bg-surface hover:border-border-strong hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)]")
             }
           >
             {featured && (
@@ -125,13 +125,19 @@ export default function PricingTiers() {
             <Link
               href={tier.cta.href}
               className={
-                "mt-10 inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition-colors " +
+                "group mt-10 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition-all duration-200 " +
                 (featured
-                  ? "bg-accent text-foreground hover:bg-accent-strong"
+                  ? "bg-accent text-foreground hover:bg-accent-strong hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.7)]"
                   : "border border-border bg-background text-secondary hover:border-border-strong hover:text-foreground")
               }
             >
               {tier.cta.label}
+              <span
+                aria-hidden
+                className="inline-block transition-transform duration-200 group-hover:translate-x-0.5"
+              >
+                →
+              </span>
             </Link>
           </div>
         );
