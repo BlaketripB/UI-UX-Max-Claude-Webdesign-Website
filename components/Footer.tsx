@@ -38,8 +38,8 @@ export default function Footer() {
               Locked In<span className="text-accent-2">.</span>
             </Link>
             <p className="mt-3 max-w-xs text-sm text-muted">
-              A modern web design and development studio building cinematic
-              sites for ambitious brands.
+              A one-person web design studio building fast, modern sites for
+              ambitious small businesses.
             </p>
             <div className="mt-6 flex items-center gap-2 text-xs text-muted">
               <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
