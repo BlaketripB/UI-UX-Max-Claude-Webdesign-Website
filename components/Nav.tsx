@@ -17,31 +17,59 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
     const sections = navLinks
-      .map((l) => document.getElementById(l.href.slice(1)))
-      .filter((n): n is HTMLElement => !!n);
+      .map((l) => {
+        const el = document.getElementById(l.href.slice(1));
+        return el ? { href: l.href, el } : null;
+      })
+      .filter((s): s is { href: string; el: HTMLElement } => !!s)
+      .sort((a, b) =>
+        a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING
+          ? -1
+          : 1,
+      );
 
-    if (sections.length === 0) return;
+    let ticking = false;
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) setActive("#" + visible[0].target.id);
-      },
-      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75] },
-    );
+    const update = () => {
+      ticking = false;
+      setScrolled(window.scrollY > 24);
 
-    sections.forEach((s) => io.observe(s));
-    return () => io.disconnect();
+      if (sections.length === 0) return;
+
+      const doc = document.documentElement;
+      const scrollBottom = window.scrollY + window.innerHeight;
+      // Snap to last nav section when within 8px of the document bottom so
+      // short trailing sections (e.g. Contact) still highlight reliably.
+      if (scrollBottom >= doc.scrollHeight - 8) {
+        setActive(sections[sections.length - 1].href);
+        return;
+      }
+
+      // Probe line ~30% down from the viewport top — comfortably below the
+      // sticky nav and above the fold midpoint.
+      const probe = window.innerHeight * 0.3;
+      let current = "";
+      for (const s of sections) {
+        if (s.el.getBoundingClientRect().top <= probe) current = s.href;
+        else break;
+      }
+      setActive(current);
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", update);
+    };
   }, []);
 
   useEffect(() => {
@@ -85,19 +113,21 @@ export default function Nav() {
               <li key={link.href}>
                 <Link
                   href={link.href}
+                  aria-current={isActive ? "true" : undefined}
                   className={
-                    "relative inline-flex rounded-full px-4 py-1.5 text-xs font-medium transition-colors " +
+                    "relative inline-flex rounded-full px-4 py-1.5 text-xs font-medium transition-colors duration-300 " +
                     (isActive
                       ? "text-foreground"
                       : "text-muted hover:text-foreground")
                   }
                 >
-                  {isActive && (
-                    <span
-                      aria-hidden
-                      className="absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-accent/20 to-accent-2/20 ring-1 ring-inset ring-white/10"
-                    />
-                  )}
+                  <span
+                    aria-hidden
+                    className={
+                      "absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-accent/20 to-accent-2/20 ring-1 ring-inset ring-white/10 transition-opacity duration-300 " +
+                      (isActive ? "opacity-100" : "opacity-0")
+                    }
+                  />
                   {link.label}
                 </Link>
               </li>
