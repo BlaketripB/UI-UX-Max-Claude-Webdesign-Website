@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { submitContact, type ContactState } from "@/app/actions";
+import { useContactPrefill } from "@/components/ContactPrefillProvider";
 
 const initialState: ContactState = { status: "idle", message: "" };
 
@@ -15,6 +16,31 @@ export default function ContactForm() {
     submitContact,
     initialState,
   );
+  const { prefill, version } = useContactPrefill();
+
+  const [message, setMessage] = useState("");
+  const [projectType, setProjectType] = useState("studio");
+  const messageRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    if (version === 0) return;
+    setMessage(prefill.message);
+    if (prefill.projectType) setProjectType(prefill.projectType);
+    const node = messageRef.current;
+    if (!node) return;
+    const t = window.setTimeout(() => {
+      node.focus({ preventScroll: true });
+      const match = node.value.match(
+        /\[(?:Tell me about your project here|Fill in here|User fills in here)\]/,
+      );
+      if (match && match.index !== undefined) {
+        node.setSelectionRange(match.index, match.index + match[0].length);
+      } else {
+        node.setSelectionRange(node.value.length, node.value.length);
+      }
+    }, 600);
+    return () => window.clearTimeout(t);
+  }, [version, prefill]);
 
   if (state.status === "success") {
     return (
@@ -85,12 +111,14 @@ export default function ContactForm() {
           <select
             id="projectType"
             name="projectType"
-            defaultValue="studio"
+            value={projectType}
+            onChange={(e) => setProjectType(e.target.value)}
             className={inputClass}
           >
             <option value="launch">Launch — landing site</option>
             <option value="studio">Studio — full marketing site</option>
             <option value="scale">Scale — ongoing partnership</option>
+            <option value="custom">Custom plan (à la carte)</option>
             <option value="other">Not sure yet</option>
           </select>
         </div>
@@ -101,8 +129,11 @@ export default function ContactForm() {
           <textarea
             id="message"
             name="message"
+            ref={messageRef}
             required
-            rows={5}
+            rows={message.length > 200 ? 12 : 6}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
             placeholder="Tell us about the site, timeline, and any goals you're chasing."
             className={inputClass + " resize-y"}
           />

@@ -5,13 +5,17 @@ import ScrollReveal from "@/components/ScrollReveal";
 import TiltCard from "@/components/TiltCard";
 import Marquee from "@/components/Marquee";
 import CountUp from "@/components/CountUp";
+import CartBuilder from "@/components/CartBuilder";
+import NotSureBanner from "@/components/NotSureBanner";
 
 type Tier = {
   name: string;
   price: string;
+  pricePrefix?: string;
   priceSuffix?: string;
   description: string;
   features: string[];
+  bestFor: string;
   cta: { href: string; label: string };
   featured?: boolean;
 };
@@ -113,46 +117,53 @@ const seoProjects: SeoProject[] = [
 const tiers: Tier[] = [
   {
     name: "Launch",
-    price: "$2,500",
+    price: "$1,500",
     description:
       "A sharp, modern landing site to get your brand online and converting.",
     features: [
-      "Up to 5 responsive pages",
+      "Up to 3 responsive pages",
       "Custom design system",
       "On-page SEO + metadata",
+      "Mobile responsive",
       "2 rounds of revisions",
       "Deploy on Vercel",
+      "2 week delivery",
     ],
+    bestFor: "New businesses, side hustles, simple service businesses",
     cta: { href: "#contact", label: "Get started" },
   },
   {
     name: "Studio",
-    price: "$7,500",
+    price: "$3,500",
     description:
       "A full marketing site with CMS, cinematic motion, and performance tuning.",
     features: [
-      "Up to 15 pages",
+      "Up to 8 pages",
       "Custom brand + design system",
       "Headless CMS integration",
       "Motion + interaction design",
       "Analytics + SEO setup",
       "4 weeks of post-launch support",
+      "4 to 6 week delivery",
     ],
+    bestFor: "Growing businesses ready to look pro",
     cta: { href: "#contact", label: "Get started" },
     featured: true,
   },
   {
     name: "Scale",
-    price: "Custom",
+    pricePrefix: "Starts at",
+    price: "$4,000",
     description:
       "Ongoing design + engineering for complex products and enterprise sites.",
     features: [
       "Unlimited pages + routes",
       "Custom apps and integrations",
-      "Dedicated design + dev team",
+      "Dedicated design + dev",
       "Continuous delivery pipeline",
       "Priority support + SLA",
     ],
+    bestFor: "Established businesses with complex needs",
     cta: { href: "#contact", label: "Contact sales" },
   },
 ];
@@ -281,20 +292,27 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <div className="mt-6 flex items-baseline gap-2">
-                      <span
-                        className={
-                          "text-5xl font-semibold tracking-tight " +
-                          (tier.featured ? "gradient-text" : "text-foreground")
-                        }
-                      >
-                        {tier.price}
-                      </span>
-                      {tier.priceSuffix && (
-                        <span className="text-sm text-muted">
-                          {tier.priceSuffix}
-                        </span>
+                    <div className="mt-6">
+                      {tier.pricePrefix && (
+                        <div className="text-xs uppercase tracking-[0.18em] text-muted">
+                          {tier.pricePrefix}
+                        </div>
                       )}
+                      <div className="mt-1 flex items-baseline gap-2">
+                        <span
+                          className={
+                            "text-5xl font-semibold tracking-tight " +
+                            (tier.featured ? "gradient-text" : "text-foreground")
+                          }
+                        >
+                          {tier.price}
+                        </span>
+                        {tier.priceSuffix && (
+                          <span className="text-sm text-muted">
+                            {tier.priceSuffix}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <ul className="mt-8 space-y-3 text-sm text-secondary">
@@ -306,13 +324,22 @@ export default function Home() {
                       ))}
                     </ul>
 
+                    <div className="mt-8 border-t border-border pt-5">
+                      <div className="text-[10px] uppercase tracking-[0.22em] text-muted">
+                        Best for
+                      </div>
+                      <p className="mt-2 text-sm text-secondary">
+                        {tier.bestFor}
+                      </p>
+                    </div>
+
                     <Link
                       href={tier.cta.href}
                       className={
                         "mt-auto inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition-colors " +
                         (tier.featured
-                          ? "mt-10 bg-accent text-foreground hover:bg-accent-strong"
-                          : "mt-10 border border-border bg-background text-secondary hover:border-border-strong hover:text-foreground")
+                          ? "mt-8 bg-accent text-foreground hover:bg-accent-strong"
+                          : "mt-8 border border-border bg-background text-secondary hover:border-border-strong hover:text-foreground")
                       }
                     >
                       {tier.cta.label}
@@ -324,6 +351,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Build your own plan — à la carte */}
+      <CartBuilder />
+
+      {/* Not sure what you need? — lead capture */}
+      <NotSureBanner />
 
       {/* Work */}
       <section id="work" className="relative border-b border-border">

@@ -5,6 +5,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
 import CursorGlow from "@/components/CursorGlow";
+import { ContactPrefillProvider } from "@/components/ContactPrefillProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,11 +37,13 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
-        <ScrollProgress />
-        <CursorGlow />
-        <Nav />
-        <main className="relative flex-1">{children}</main>
-        <Footer />
+        <ContactPrefillProvider>
+          <ScrollProgress />
+          <CursorGlow />
+          <Nav />
+          <main className="relative flex-1">{children}</main>
+          <Footer />
+        </ContactPrefillProvider>
       </body>
     </html>
   );
