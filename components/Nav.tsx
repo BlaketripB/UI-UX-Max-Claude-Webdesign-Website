@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -93,17 +94,17 @@ export default function Nav() {
       >
         <Link
           href="/"
-          className="group relative flex items-center gap-2 text-base font-semibold tracking-tight text-foreground"
+          aria-label="Locked In Web Design home"
+          className="flex items-center"
         >
-          <span className="relative flex h-6 w-6 items-center justify-center">
-            <span className="absolute inset-0 rounded-md bg-gradient-to-br from-accent to-accent-2 opacity-80 blur-sm transition-opacity group-hover:opacity-100" />
-            <span className="relative flex h-5 w-5 items-center justify-center rounded-md bg-background font-mono text-[11px] font-bold text-foreground">
-              L
-            </span>
-          </span>
-          <span>
-            Locked In<span className="text-accent-2">.</span>
-          </span>
+          <Image
+            src="/logo.svg"
+            alt="Locked In Web Design"
+            width={200}
+            height={41}
+            priority
+            className="h-7 w-auto sm:h-8 md:h-9"
+          />
         </Link>
 
         <ul className="hidden items-center gap-1 rounded-full border border-border bg-surface/40 p-1 backdrop-blur md:flex">

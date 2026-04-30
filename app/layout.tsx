@@ -18,12 +18,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://lockedinweb.design"),
   title: {
     default: "Locked In Web Design — Premium sites, locked in.",
     template: "%s — Locked In Web Design",
   },
   description:
     "A design & engineering studio building fast, cinematic websites for ambitious brands.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    images: [
+      {
+        url: "/logo-icon-512.png",
+        width: 512,
+        height: 512,
+        alt: "Locked In Web Design",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
