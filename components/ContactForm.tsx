@@ -1,26 +1,33 @@
 "use client";
 
-import { useActionState, useEffect, useRef, useState } from "react";
-import { submitContact, type ContactState } from "@/app/actions";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
 
-const initialState: ContactState = { status: "idle", message: "" };
+type Status =
+  | { kind: "idle" }
+  | { kind: "submitting" }
+  | { kind: "error"; message: string }
+  | { kind: "success"; message: string };
+
+const idleStatus: Status = { kind: "idle" };
 
 const inputClass =
   "w-full rounded-lg border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30";
 
-const labelClass = "block text-xs font-medium uppercase tracking-[0.12em] text-muted";
+const labelClass =
+  "block text-xs font-medium uppercase tracking-[0.12em] text-muted";
+
+const SUCCESS_MESSAGE =
+  "Thanks — I'll get back to you within one business day.";
 
 export default function ContactForm() {
-  const [state, formAction, pending] = useActionState(
-    submitContact,
-    initialState,
-  );
   const { prefill, version } = useContactPrefill();
 
+  const [status, setStatus] = useState<Status>(idleStatus);
   const [message, setMessage] = useState("");
   const [projectType, setProjectType] = useState("studio");
   const messageRef = useRef<HTMLTextAreaElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
     if (version === 0) return;
@@ -42,7 +49,61 @@ export default function ContactForm() {
     return () => window.clearTimeout(t);
   }, [version, prefill]);
 
-  if (state.status === "success") {
+  async function onSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (status.kind === "submitting") return;
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const payload = {
+      name: String(data.get("name") ?? "").trim(),
+      email: String(data.get("email") ?? "").trim(),
+      company: String(data.get("company") ?? "").trim(),
+      projectType: String(data.get("projectType") ?? "").trim(),
+      message: String(data.get("message") ?? "").trim(),
+      website: String(data.get("website") ?? ""),
+    };
+
+    setStatus({ kind: "submitting" });
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json: unknown = await res.json().catch(() => ({}));
+      const errorMessage =
+        json &&
+        typeof json === "object" &&
+        "error" in json &&
+        typeof (json as { error: unknown }).error === "string"
+          ? (json as { error: string }).error
+          : null;
+
+      if (!res.ok) {
+        setStatus({
+          kind: "error",
+          message:
+            errorMessage ?? "Something went wrong. Please try again in a moment.",
+        });
+        return;
+      }
+
+      form.reset();
+      setMessage("");
+      setProjectType("studio");
+      setStatus({ kind: "success", message: SUCCESS_MESSAGE });
+    } catch (err) {
+      console.error("Contact form submission failed", err);
+      setStatus({
+        kind: "error",
+        message: "Network error. Please check your connection and try again.",
+      });
+    }
+  }
+
+  if (status.kind === "success") {
     return (
       <div className="rounded-2xl border border-accent/40 bg-surface p-8">
         <div className="flex items-center gap-3">
@@ -51,14 +112,24 @@ export default function ContactForm() {
             Message sent
           </h3>
         </div>
-        <p className="mt-3 text-sm text-secondary">{state.message}</p>
+        <p className="mt-3 text-sm text-secondary">{status.message}</p>
+        <button
+          type="button"
+          onClick={() => setStatus(idleStatus)}
+          className="mt-6 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-muted transition-colors hover:text-foreground"
+        >
+          Send another <span aria-hidden>→</span>
+        </button>
       </div>
     );
   }
 
+  const submitting = status.kind === "submitting";
+
   return (
     <form
-      action={formAction}
+      ref={formRef}
+      onSubmit={onSubmit}
       className="rounded-2xl border border-border bg-surface p-6 sm:p-8"
       noValidate
     >
@@ -74,6 +145,7 @@ export default function ContactForm() {
             autoComplete="name"
             required
             placeholder="Jane Doe"
+            disabled={submitting}
             className={inputClass}
           />
         </div>
@@ -88,6 +160,7 @@ export default function ContactForm() {
             autoComplete="email"
             required
             placeholder="jane@company.com"
+            disabled={submitting}
             className={inputClass}
           />
         </div>
@@ -101,6 +174,7 @@ export default function ContactForm() {
             type="text"
             autoComplete="organization"
             placeholder="Acme Inc."
+            disabled={submitting}
             className={inputClass}
           />
         </div>
@@ -113,6 +187,7 @@ export default function ContactForm() {
             name="projectType"
             value={projectType}
             onChange={(e) => setProjectType(e.target.value)}
+            disabled={submitting}
             className={inputClass}
           >
             <option value="launch">Launch — landing site</option>
@@ -135,9 +210,28 @@ export default function ContactForm() {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Tell us about the site, timeline, and any goals you're chasing."
+            disabled={submitting}
             className={inputClass + " resize-y"}
           />
         </div>
+      </div>
+
+      {/* Honeypot — visually hidden, off-screen. Bots auto-fill every input;
+          humans never see this. Submissions with a non-empty value are dropped. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute h-px w-px overflow-hidden opacity-0"
+        style={{ clip: "rect(0 0 0 0)", clipPath: "inset(50%)", left: "-9999px" }}
+      >
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          defaultValue=""
+        />
       </div>
 
       <div className="mt-6 flex flex-col-reverse items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -145,17 +239,32 @@ export default function ContactForm() {
           aria-live="polite"
           className={
             "text-sm " +
-            (state.status === "error" ? "text-red-400" : "text-muted")
+            (status.kind === "error" ? "text-red-400" : "text-muted")
           }
         >
-          {state.message || "We respond within one business day."}
+          {status.kind === "error"
+            ? status.message
+            : "We respond within one business day."}
         </p>
         <button
           type="submit"
-          disabled={pending}
-          className="inline-flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          disabled={submitting}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
         >
-          {pending ? "Sending…" : "Send message"}
+          {submitting && (
+            <svg
+              aria-hidden
+              viewBox="0 0 24 24"
+              className="h-4 w-4 animate-spin"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            >
+              <path d="M12 3a9 9 0 1 0 9 9" />
+            </svg>
+          )}
+          {submitting ? "Sending…" : "Send message"}
         </button>
       </div>
     </form>
