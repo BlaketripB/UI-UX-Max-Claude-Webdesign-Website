@@ -5,13 +5,17 @@ import ScrollReveal from "@/components/ScrollReveal";
 import TiltCard from "@/components/TiltCard";
 import Marquee from "@/components/Marquee";
 import CountUp from "@/components/CountUp";
+import CartBuilder from "@/components/CartBuilder";
+import NotSureBanner from "@/components/NotSureBanner";
 
 type Tier = {
   name: string;
   price: string;
+  pricePrefix?: string;
   priceSuffix?: string;
   description: string;
   features: string[];
+  bestFor: string;
   cta: { href: string; label: string };
   featured?: boolean;
 };
@@ -22,95 +26,144 @@ type Project = {
   tag: string;
   year: string;
   description: string;
+  url: string;
   cover: string;
+};
+
+type SeoProject = {
+  slug: string;
+  name: string;
+  tag: string;
+  year: string;
+  description: string;
+  url?: string;
 };
 
 const projects: Project[] = [
   {
-    slug: "northwind-labs",
-    name: "Northwind Labs",
-    tag: "SaaS · Marketing",
+    slug: "read-in-8-weeks",
+    name: "Read in 8 Weeks",
+    tag: "Education · Course Creator",
     year: "2026",
     description:
-      "Repositioned an infra startup with a new brand system and a marketing site that lifted demo requests by 62%.",
+      "Built a clean, conversion-focused site for a reading education business. Custom course sales page, free workshop funnel, integrated GHL lead capture, and full SEO setup.",
+    url: "https://readin8wks.com",
     cover:
       "bg-[radial-gradient(circle_at_30%_20%,rgba(99,102,241,0.45),transparent_60%),linear-gradient(135deg,#0f1025,#070709)]",
   },
   {
-    slug: "hearth-and-co",
-    name: "Hearth & Co.",
-    tag: "E-commerce · Shopify",
-    year: "2025",
+    slug: "lockridge-cyber",
+    name: "Lockridge Cyber",
+    tag: "Cybersecurity · B2B",
+    year: "2026",
     description:
-      "A calm, editorial storefront for a home goods brand. Headless Shopify, custom PDPs, and bespoke motion.",
+      "Modern cybersecurity site positioning a healthcare-focused IT and security business. Sharp design, clear service tiers, lead generation.",
+    url: "https://lockridgecyber.com",
     cover:
-      "bg-[radial-gradient(circle_at_75%_30%,rgba(34,211,238,0.35),transparent_55%),linear-gradient(210deg,#0a1520,#070709)]",
+      "bg-[radial-gradient(circle_at_75%_30%,rgba(34,211,238,0.4),transparent_55%),linear-gradient(210deg,#06121f,#070709)]",
   },
   {
-    slug: "meridian-capital",
-    name: "Meridian Capital",
-    tag: "Financial · Corporate",
-    year: "2025",
+    slug: "renewal-day-spa",
+    name: "Renewal Day Spa",
+    tag: "Wellness · Spa",
+    year: "2026",
     description:
-      "Trust-first design for a private credit firm. Rigorous typography, serious color, and a data room that ships.",
+      "Calming, editorial site for a day spa. Service menu, booking integration, and a brand system that matches the in-person experience.",
+    url: "https://renwal-spa-website.vercel.app",
     cover:
-      "bg-[radial-gradient(circle_at_20%_80%,rgba(129,140,248,0.35),transparent_60%),linear-gradient(150deg,#070709,#141828)]",
+      "bg-[radial-gradient(circle_at_20%_80%,rgba(244,114,182,0.32),transparent_60%),linear-gradient(150deg,#070709,#1a1024)]",
   },
   {
-    slug: "volt-fitness",
-    name: "Volt Fitness",
-    tag: "D2C · Mobile-first",
-    year: "2024",
+    slug: "dr-wright",
+    name: "Dr. Wright",
+    tag: "Healthcare",
+    year: "2026",
     description:
-      "A kinetic, mobile-first product site for a connected fitness brand. 98 Lighthouse, 1.2s LCP on 4G.",
+      "Trusted, professional site for a healthcare practice. Custom build with clear services, easy contact flow, HIPAA-aware contact forms, plus full SEO setup and ongoing growth optimization.",
+    url: "https://drwright.care",
     cover:
-      "bg-[radial-gradient(circle_at_70%_70%,rgba(99,102,241,0.5),transparent_60%),linear-gradient(20deg,#070709,#1a1330)]",
+      "bg-[radial-gradient(circle_at_70%_70%,rgba(45,212,191,0.4),transparent_60%),linear-gradient(20deg,#070709,#0a1a24)]",
+  },
+];
+
+const seoProjects: SeoProject[] = [
+  {
+    slug: "curo-consulting-group",
+    name: "Curo Consulting Group",
+    tag: "Consulting · SEO",
+    year: "2026",
+    description:
+      "On-page SEO and metadata overhaul for a B2B consulting firm.",
+  },
+  {
+    slug: "elevation-100",
+    name: "Elevation 100",
+    tag: "SEO · Metadata",
+    year: "2026",
+    description:
+      "Site audit and SEO improvements for a renewable energy startup. Lifted organic visibility through metadata overhaul and on-page optimization.",
+  },
+  {
+    slug: "soda-life",
+    name: "Soda Life",
+    tag: "Brand · SEO",
+    year: "2026",
+    description:
+      "SEO and metadata optimization for a lifestyle brand site.",
+    url: "https://soda-life-website.vercel.app",
   },
 ];
 
 const tiers: Tier[] = [
   {
     name: "Launch",
-    price: "$2,500",
+    price: "$1,500",
     description:
       "A sharp, modern landing site to get your brand online and converting.",
     features: [
-      "Up to 5 responsive pages",
+      "Up to 3 responsive pages",
       "Custom design system",
       "On-page SEO + metadata",
+      "Mobile responsive",
       "2 rounds of revisions",
       "Deploy on Vercel",
+      "2 week delivery",
     ],
+    bestFor: "New businesses, side hustles, simple service businesses",
     cta: { href: "#contact", label: "Get started" },
   },
   {
     name: "Studio",
-    price: "$7,500",
+    price: "$3,500",
     description:
       "A full marketing site with CMS, cinematic motion, and performance tuning.",
     features: [
-      "Up to 15 pages",
+      "Up to 8 pages",
       "Custom brand + design system",
       "Headless CMS integration",
       "Motion + interaction design",
       "Analytics + SEO setup",
       "4 weeks of post-launch support",
+      "4 to 6 week delivery",
     ],
+    bestFor: "Growing businesses ready to look pro",
     cta: { href: "#contact", label: "Get started" },
     featured: true,
   },
   {
     name: "Scale",
-    price: "Custom",
+    pricePrefix: "Starts at",
+    price: "$4,000",
     description:
       "Ongoing design + engineering for complex products and enterprise sites.",
     features: [
       "Unlimited pages + routes",
       "Custom apps and integrations",
-      "Dedicated design + dev team",
+      "Dedicated design + dev",
       "Continuous delivery pipeline",
       "Priority support + SLA",
     ],
+    bestFor: "Established businesses with complex needs",
     cta: { href: "#contact", label: "Contact sales" },
   },
 ];
@@ -239,20 +292,27 @@ export default function Home() {
                       </p>
                     </div>
 
-                    <div className="mt-6 flex items-baseline gap-2">
-                      <span
-                        className={
-                          "text-5xl font-semibold tracking-tight " +
-                          (tier.featured ? "gradient-text" : "text-foreground")
-                        }
-                      >
-                        {tier.price}
-                      </span>
-                      {tier.priceSuffix && (
-                        <span className="text-sm text-muted">
-                          {tier.priceSuffix}
-                        </span>
+                    <div className="mt-6">
+                      {tier.pricePrefix && (
+                        <div className="text-xs uppercase tracking-[0.18em] text-muted">
+                          {tier.pricePrefix}
+                        </div>
                       )}
+                      <div className="mt-1 flex items-baseline gap-2">
+                        <span
+                          className={
+                            "text-5xl font-semibold tracking-tight " +
+                            (tier.featured ? "gradient-text" : "text-foreground")
+                          }
+                        >
+                          {tier.price}
+                        </span>
+                        {tier.priceSuffix && (
+                          <span className="text-sm text-muted">
+                            {tier.priceSuffix}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <ul className="mt-8 space-y-3 text-sm text-secondary">
@@ -264,13 +324,22 @@ export default function Home() {
                       ))}
                     </ul>
 
+                    <div className="mt-8 border-t border-border pt-5">
+                      <div className="text-[10px] uppercase tracking-[0.22em] text-muted">
+                        Best for
+                      </div>
+                      <p className="mt-2 text-sm text-secondary">
+                        {tier.bestFor}
+                      </p>
+                    </div>
+
                     <Link
                       href={tier.cta.href}
                       className={
                         "mt-auto inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition-colors " +
                         (tier.featured
-                          ? "mt-10 bg-accent text-foreground hover:bg-accent-strong"
-                          : "mt-10 border border-border bg-background text-secondary hover:border-border-strong hover:text-foreground")
+                          ? "mt-8 bg-accent text-foreground hover:bg-accent-strong"
+                          : "mt-8 border border-border bg-background text-secondary hover:border-border-strong hover:text-foreground")
                       }
                     >
                       {tier.cta.label}
@@ -282,6 +351,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Build your own plan — à la carte */}
+      <CartBuilder />
+
+      {/* Not sure what you need? — lead capture */}
+      <NotSureBanner />
 
       {/* Work */}
       <section id="work" className="relative border-b border-border">
@@ -317,8 +392,10 @@ export default function Home() {
                   intensity={6}
                   className="group h-full overflow-hidden rounded-2xl border border-border bg-surface"
                 >
-                  <Link
-                    href={`/work/${project.slug}`}
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
                     className="flex h-full flex-col"
                   >
                     <div
@@ -362,17 +439,78 @@ export default function Home() {
                           aria-hidden
                           className="mt-1 text-secondary transition-transform duration-300 group-hover:translate-x-1 group-hover:text-accent-2"
                         >
-                          →
+                          ↗
                         </span>
                       </div>
                       <p className="text-sm text-secondary">
                         {project.description}
                       </p>
                     </div>
-                  </Link>
+                  </a>
                 </TiltCard>
               </ScrollReveal>
             ))}
+          </div>
+
+          <div className="mt-20 border-t border-border pt-12">
+            <ScrollReveal className="max-w-2xl">
+              <span className="text-xs font-medium uppercase tracking-[0.22em] text-accent-glow">
+                SEO &amp; growth work
+              </span>
+              <h3 className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+                Audits and metadata work for brands sharpening their organic
+                reach.
+              </h3>
+            </ScrollReveal>
+
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {seoProjects.map((project, i) => {
+                const Inner = (
+                  <div className="group flex h-full flex-col gap-3 rounded-xl border border-border bg-surface p-6 transition-colors hover:border-border-strong">
+                    <div className="flex items-center justify-between gap-3 text-xs text-muted">
+                      <span className="uppercase tracking-[0.18em]">
+                        {project.tag}
+                      </span>
+                      <span className="rounded-full border border-border-strong/60 bg-background/60 px-2 py-0.5 text-[10px] uppercase tracking-[0.2em] text-muted">
+                        {project.year}
+                      </span>
+                    </div>
+                    <div className="flex items-start justify-between gap-3">
+                      <h4 className="text-base font-semibold text-foreground">
+                        {project.name}
+                      </h4>
+                      {project.url && (
+                        <span
+                          aria-hidden
+                          className="text-secondary transition-transform duration-300 group-hover:translate-x-0.5 group-hover:text-accent-2"
+                        >
+                          ↗
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-secondary">
+                      {project.description}
+                    </p>
+                  </div>
+                );
+                return (
+                  <ScrollReveal key={project.slug} delay={i * 120}>
+                    {project.url ? (
+                      <a
+                        href={project.url}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="block h-full"
+                      >
+                        {Inner}
+                      </a>
+                    ) : (
+                      <div className="h-full">{Inner}</div>
+                    )}
+                  </ScrollReveal>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -445,19 +583,21 @@ export default function Home() {
               className="space-y-5 text-base text-secondary md:col-span-3 sm:text-lg"
             >
               <p>
-                Locked In is a small, senior team of designers and engineers.
-                We partner directly with founders, marketing leads, and product
-                teams — no account managers, no handoffs, no slide decks.
+                Locked In is a one-person design studio based in Utah. I
+                partner directly with founders, small business owners, and
+                growing brands. No account managers, no handoffs, no slide
+                decks. Every pixel and every line of code is mine.
               </p>
               <p>
-                We&apos;ve shipped for early-stage startups, public companies,
-                and everything in between. What unites the work is a bias
-                toward sharp typography, considered motion, and pages that load
-                fast everywhere they&apos;re opened.
+                I work with early-stage startups, course creators, healthcare
+                offices, and service businesses ready to look as serious as
+                they are. What unites the work is sharp typography, considered
+                motion, and pages that load fast everywhere they&apos;re
+                opened.
               </p>
               <p>
                 If you care about how your site looks, feels, and performs
-                under load — we&apos;re probably a good fit.
+                under load, we&apos;re probably a good fit.
               </p>
             </ScrollReveal>
 
@@ -466,16 +606,15 @@ export default function Home() {
                 intensity={6}
                 className="grid grid-cols-2 overflow-hidden rounded-2xl border border-border bg-surface"
               >
-                <Stat value={40} suffix="+" label="Sites shipped" border="r b" />
-                <Stat value={6} suffix=" yrs" label="In business" border="b" />
+                <Stat value={7} label="Projects shipped" border="r b" />
+                <Stat value={5} suffix=" mo" label="Building sites" border="b" />
                 <Stat
-                  value={120}
-                  prefix="$"
-                  suffix="M"
-                  label="Revenue influenced"
+                  value={100}
+                  suffix="%"
+                  label="Lighthouse 95+ scores"
                   border="r"
                 />
-                <Stat value={12} label="Countries served" />
+                <Stat value={1} suffix=" day" label="Response time" />
               </TiltCard>
             </ScrollReveal>
           </div>
@@ -550,7 +689,7 @@ export default function Home() {
                     Studio
                   </dt>
                   <dd className="mt-1 text-base text-foreground">
-                    Remote-first · New York / London
+                    Remote, based in Utah
                   </dd>
                 </div>
                 <div>

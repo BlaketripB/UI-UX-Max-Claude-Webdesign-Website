@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
 
@@ -33,13 +34,20 @@ export default function Footer() {
           <div className="md:col-span-1">
             <Link
               href="/"
-              className="text-base font-semibold tracking-tight text-foreground"
+              aria-label="Locked In Web Design home"
+              className="inline-flex items-center"
             >
-              Locked In<span className="text-accent-2">.</span>
+              <Image
+                src="/logo.svg"
+                alt="Locked In Web Design"
+                width={200}
+                height={41}
+                className="h-7 w-auto"
+              />
             </Link>
             <p className="mt-3 max-w-xs text-sm text-muted">
-              A modern web design and development studio building cinematic
-              sites for ambitious brands.
+              A one-person web design studio building fast, modern sites for
+              ambitious small businesses.
             </p>
             <div className="mt-6 flex items-center gap-2 text-xs text-muted">
               <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
