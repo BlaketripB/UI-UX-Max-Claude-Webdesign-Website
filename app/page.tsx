@@ -7,6 +7,8 @@ import Marquee from "@/components/Marquee";
 import CountUp from "@/components/CountUp";
 import CartBuilder from "@/components/CartBuilder";
 import NotSureBanner from "@/components/NotSureBanner";
+import ServicesAccordion from "@/components/ServicesAccordion";
+import { services } from "@/lib/services";
 
 type Tier = {
   name: string;
@@ -556,6 +558,52 @@ export default function Home() {
                 </TiltCard>
               </ScrollReveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services preview — accordion */}
+      <section
+        id="services-preview"
+        className="relative border-b border-border"
+      >
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute left-10 top-32 h-[360px] w-[360px] rounded-full bg-accent/10 blur-[140px]" />
+          <div className="absolute right-1/4 bottom-20 h-[320px] w-[320px] rounded-full bg-accent-2/10 blur-[120px]" />
+        </div>
+
+        <div className="mx-auto max-w-4xl px-6 py-28 md:py-40">
+          <ScrollReveal className="mx-auto max-w-2xl text-center">
+            <span className="text-xs font-medium uppercase tracking-[0.22em] text-accent-glow">
+              What we deliver
+            </span>
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight sm:text-6xl">
+              What we{" "}
+              <span className="gradient-text">actually do.</span>
+            </h2>
+            <p className="mt-5 text-base text-secondary sm:text-lg">
+              More than just a pretty site. Here&apos;s the real work that goes
+              into every Locked In project.
+            </p>
+          </ScrollReveal>
+
+          <div className="mt-14">
+            <ServicesAccordion services={services.slice(0, 6)} />
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/services"
+              className="group inline-flex items-center gap-2 rounded-full border border-border bg-background px-6 py-3 text-sm font-medium text-secondary transition-colors hover:border-border-strong hover:text-foreground"
+            >
+              See all services
+              <span
+                aria-hidden
+                className="transition-transform duration-300 group-hover:translate-x-0.5"
+              >
+                →
+              </span>
+            </Link>
           </div>
         </div>
       </section>

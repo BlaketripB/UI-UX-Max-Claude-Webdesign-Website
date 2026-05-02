@@ -89,14 +89,14 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="kinetic-mask mt-10">
+        <div className="kinetic-mask mt-10 w-full max-w-xs md:max-w-none">
           <span
             style={{ animationDelay: "380ms" }}
-            className="flex flex-col items-center gap-3 sm:flex-row"
+            className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center"
           >
             <MagneticButton
               href="#contact"
-              className="hover-glow rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-foreground hover:bg-accent-strong"
+              className="hover-glow w-full rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-foreground hover:bg-accent-strong md:w-auto"
             >
               Start a project
               <span aria-hidden className="ml-2">
@@ -105,7 +105,7 @@ export default function Hero() {
             </MagneticButton>
             <Link
               href="#work"
-              className="rounded-full border border-border bg-surface/60 px-7 py-3.5 text-sm font-medium text-secondary backdrop-blur transition-colors hover:border-border-strong hover:text-foreground"
+              className="w-full rounded-full border border-border bg-surface/60 px-7 py-3.5 text-center text-sm font-medium text-secondary backdrop-blur transition-colors hover:border-border-strong hover:text-foreground md:w-auto"
             >
               See selected work
             </Link>
