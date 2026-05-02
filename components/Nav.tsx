@@ -2,33 +2,48 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const navLinks = [
-  { href: "#work", label: "Work" },
-  { href: "#services", label: "Services" },
-  { href: "#process", label: "Process" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
+type NavLink = { href: string; label: string };
+
+const navLinks: NavLink[] = [
+  { href: "/#work", label: "Work" },
+  { href: "/services", label: "Services" },
+  { href: "/#process", label: "Process" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ];
 
+function hashOf(href: string): string | null {
+  const i = href.indexOf("#");
+  return i === -1 ? null : href.slice(i + 1);
+}
+
 export default function Nav() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const sections = navLinks
-      .map((l) => {
-        const el = document.getElementById(l.href.slice(1));
-        return el ? { href: l.href, el } : null;
-      })
-      .filter((s): s is { href: string; el: HTMLElement } => !!s)
-      .sort((a, b) =>
-        a.el.compareDocumentPosition(b.el) & Node.DOCUMENT_POSITION_FOLLOWING
-          ? -1
-          : 1,
-      );
+    const isHome = pathname === "/";
+    const sections = isHome
+      ? navLinks
+          .map((l) => {
+            const id = hashOf(l.href);
+            if (!id) return null;
+            const el = document.getElementById(id);
+            return el ? { href: l.href, el } : null;
+          })
+          .filter((s): s is { href: string; el: HTMLElement } => !!s)
+          .sort((a, b) =>
+            a.el.compareDocumentPosition(b.el) &
+            Node.DOCUMENT_POSITION_FOLLOWING
+              ? -1
+              : 1,
+          )
+      : [];
 
     let ticking = false;
 
@@ -36,7 +51,10 @@ export default function Nav() {
       ticking = false;
       setScrolled(window.scrollY > 24);
 
-      if (sections.length === 0) return;
+      if (sections.length === 0) {
+        setActive("");
+        return;
+      }
 
       const doc = document.documentElement;
       const scrollBottom = window.scrollY + window.innerHeight;
@@ -71,7 +89,7 @@ export default function Nav() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", update);
     };
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -109,7 +127,10 @@ export default function Nav() {
 
         <ul className="hidden items-center gap-1 rounded-full border border-border bg-surface/40 p-1 backdrop-blur md:flex">
           {navLinks.map((link) => {
-            const isActive = active === link.href;
+            const isPath = !link.href.includes("#");
+            const isActive = isPath
+              ? pathname === link.href
+              : pathname === "/" && active === link.href;
             return (
               <li key={link.href}>
                 <Link
@@ -138,7 +159,7 @@ export default function Nav() {
 
         <div className="flex items-center gap-2">
           <Link
-            href="#contact"
+            href="/#contact"
             className="hidden rounded-full bg-gradient-to-r from-accent to-accent-strong px-4 py-2 text-sm font-medium text-foreground shadow-[0_10px_30px_-10px_rgba(99,102,241,0.8)] transition-transform hover:scale-[1.02] hover:shadow-[0_14px_34px_-10px_rgba(99,102,241,0.9)] md:inline-flex"
           >
             Start a project
@@ -199,7 +220,7 @@ export default function Nav() {
           ))}
           <li className="mt-6">
             <Link
-              href="#contact"
+              href="/#contact"
               onClick={() => setOpen(false)}
               className="block rounded-full bg-gradient-to-r from-accent to-accent-strong px-6 py-3.5 text-center text-sm font-medium text-foreground"
             >
