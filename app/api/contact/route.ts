@@ -9,6 +9,7 @@ const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const submissions = new Map<string, number[]>();
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const REFERRAL_RE = /^[a-zA-Z0-9_-]{1,50}$/;
 
 const PROJECT_TYPE_LABELS: Record<string, string> = {
   launch: "Launch — landing site",
@@ -24,6 +25,7 @@ type Payload = {
   company: string;
   projectType: string;
   message: string;
+  referralSource: string;
 };
 
 function getIp(req: Request): string {
@@ -105,6 +107,16 @@ function renderEmailHtml(p: Payload & { projectTypeLabel: string }): string {
     )
     .join("");
 
+  const referralBanner = p.referralSource
+    ? `<tr>
+        <td style="padding:0 28px 20px 28px;">
+          <div style="padding:14px 18px;background:#FFB59A;color:#3A1B0E;border:1px solid #FF8A65;border-radius:12px;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">
+            Referral source: <span style="font-weight:700;letter-spacing:0.04em;text-transform:none;">${escapeHtml(p.referralSource)}</span>
+          </div>
+        </td>
+      </tr>`
+    : "";
+
   return `<!doctype html>
 <html lang="en">
   <head>
@@ -120,6 +132,7 @@ function renderEmailHtml(p: Payload & { projectTypeLabel: string }): string {
           <h1 style="margin:8px 0 0 0;font-size:22px;font-weight:600;letter-spacing:-0.01em;color:#F4F4F8;">From ${escapeHtml(p.name)}</h1>
         </td>
       </tr>
+      ${referralBanner}
       <tr>
         <td>
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">${rowsHtml}</table>
@@ -161,12 +174,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true }, { status: 200 });
   }
 
+  const rawReferral =
+    typeof b.referralSource === "string" ? b.referralSource.trim() : "";
+  const referralSource = REFERRAL_RE.test(rawReferral) ? rawReferral : "";
+
   const payload: Payload = {
     name: typeof b.name === "string" ? b.name.trim() : "",
     email: typeof b.email === "string" ? b.email.trim() : "",
     company: typeof b.company === "string" ? b.company.trim() : "",
     projectType: typeof b.projectType === "string" ? b.projectType.trim() : "",
     message: typeof b.message === "string" ? b.message.trim() : "",
+    referralSource,
   };
 
   const v = validate(payload);
@@ -206,7 +224,9 @@ export async function POST(req: Request) {
       from,
       to: [to],
       replyTo: payload.email,
-      subject: `New lead from ${payload.name} — Locked In Web Design`,
+      subject: payload.referralSource
+        ? `New lead from lockedinweb.design (via ${payload.referralSource})`
+        : "New lead from lockedinweb.design",
       html,
     });
     if (error) {

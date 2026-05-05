@@ -89,27 +89,28 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="kinetic-mask mt-10 w-full max-w-xs md:max-w-none">
-          <span
-            style={{ animationDelay: "380ms" }}
-            className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center"
+        <div
+          style={{
+            animation:
+              "kinetic-up 0.9s var(--ease-out-expo) 380ms both",
+          }}
+          className="mt-10 flex w-full max-w-xs flex-col gap-3 md:w-auto md:max-w-none md:flex-row md:items-center md:gap-4"
+        >
+          <MagneticButton
+            href="#contact"
+            className="hover-glow w-full rounded-full border border-transparent bg-accent px-7 py-3.5 text-sm font-medium text-foreground hover:bg-accent-strong md:w-auto"
           >
-            <MagneticButton
-              href="#contact"
-              className="hover-glow w-full rounded-full bg-accent px-7 py-3.5 text-sm font-medium text-foreground hover:bg-accent-strong md:w-auto"
-            >
-              Start a project
-              <span aria-hidden className="ml-2">
-                →
-              </span>
-            </MagneticButton>
-            <Link
-              href="#work"
-              className="w-full rounded-full border border-border bg-surface/60 px-7 py-3.5 text-center text-sm font-medium text-secondary backdrop-blur transition-colors hover:border-border-strong hover:text-foreground md:w-auto"
-            >
-              See selected work
-            </Link>
-          </span>
+            Start a project
+            <span aria-hidden className="ml-2">
+              →
+            </span>
+          </MagneticButton>
+          <Link
+            href="#work"
+            className="w-full rounded-full border border-border bg-surface/60 px-7 py-3.5 text-center text-sm font-medium text-secondary backdrop-blur transition-colors hover:border-border-strong hover:text-foreground md:w-auto"
+          >
+            See selected work
+          </Link>
         </div>
 
         {/* 3D floating scene — mouse parallax cards */}
