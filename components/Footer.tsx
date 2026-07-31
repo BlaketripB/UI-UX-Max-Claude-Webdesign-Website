@@ -4,19 +4,14 @@ import ScrollReveal from "@/components/ScrollReveal";
 
 const footerGroups: Record<string, { href: string; label: string }[]> = {
   Studio: [
-    { href: "#about", label: "About" },
-    { href: "#work", label: "Work" },
-    { href: "#process", label: "Process" },
+    { href: "/#about", label: "About" },
+    { href: "/#work", label: "Work" },
+    { href: "/#process", label: "Process" },
   ],
   Services: [
-    { href: "#services", label: "Web Design" },
-    { href: "#services", label: "Development" },
-    { href: "#services", label: "Branding" },
-  ],
-  Connect: [
-    { href: "#contact", label: "Contact" },
-    { href: "https://twitter.com", label: "Twitter" },
-    { href: "https://linkedin.com", label: "LinkedIn" },
+    { href: "/services", label: "Web Design" },
+    { href: "/services", label: "Development" },
+    { href: "/services", label: "Branding" },
   ],
 };
 
@@ -74,6 +69,35 @@ export default function Footer() {
               </ul>
             </div>
           ))}
+
+          <div>
+            <h3 className="text-xs font-medium uppercase tracking-[0.2em] text-muted">
+              Connect
+            </h3>
+            <div className="mt-5 flex flex-col items-start gap-4">
+              <Link
+                href="/#contact"
+                aria-label="Send a message — scroll to contact form"
+                className="group inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-accent-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                Send a message
+                <span
+                  aria-hidden
+                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </Link>
+              <a
+                href="mailto:hello@lockedinweb.design"
+                target="_self"
+                aria-label="Email hello@lockedinweb.design"
+                className="text-xs text-muted transition-colors hover:text-accent-2 focus:outline-none focus-visible:text-accent-2"
+              >
+                hello@lockedinweb.design
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Huge wordmark */}

@@ -5,6 +5,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import ScrollProgress from "@/components/ScrollProgress";
 import CursorGlow from "@/components/CursorGlow";
+import RefTracker from "@/components/RefTracker";
 import { ContactPrefillProvider } from "@/components/ContactPrefillProvider";
 
 const geistSans = Geist({
@@ -58,6 +59,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col bg-background text-foreground">
         <ContactPrefillProvider>
+          <RefTracker />
           <ScrollProgress />
           <CursorGlow />
           <Nav />

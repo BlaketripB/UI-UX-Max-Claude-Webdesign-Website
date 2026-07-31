@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
+import { readStoredRef } from "@/components/RefTracker";
 
 type Status =
   | { kind: "idle" }
@@ -62,6 +63,7 @@ export default function ContactForm() {
       projectType: String(data.get("projectType") ?? "").trim(),
       message: String(data.get("message") ?? "").trim(),
       website: String(data.get("website") ?? ""),
+      referralSource: readStoredRef(),
     };
 
     setStatus({ kind: "submitting" });
