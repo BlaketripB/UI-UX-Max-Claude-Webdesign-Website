@@ -96,6 +96,7 @@ const seoProjects: SeoProject[] = [
     year: "2026",
     description:
       "On-page SEO and metadata overhaul for a B2B consulting firm.",
+    url: "https://curoconsultinggroup.com",
   },
   {
     slug: "elevation-100",
@@ -104,6 +105,7 @@ const seoProjects: SeoProject[] = [
     year: "2026",
     description:
       "Site audit and SEO improvements for a renewable energy startup. Lifted organic visibility through metadata overhaul and on-page optimization.",
+    url: "https://elevation100.com",
   },
   {
     slug: "soda-life",
@@ -112,7 +114,7 @@ const seoProjects: SeoProject[] = [
     year: "2026",
     description:
       "SEO and metadata optimization for a lifestyle brand site.",
-    url: "https://soda-life-website.vercel.app",
+    url: "https://www.sodalifepayson.com",
   },
 ];
 
